@@ -26,16 +26,25 @@ function Todo() {
     { key: getKey(), text: '明日の準備をする', done: false },
     /* テストコード 終了 */
   ]);
-
+const handleChange=(key)=>{
+  let cpState =[...items];
+  for(let item of cpState){
+    if(item.key===key){
+      item.done=!item.done
+    }
+  }
+  putItems(cpState)
+  
+}
   return (
     <div className="panel">
       <div className="panel-heading">
         ITSS ToDoアプリ
       </div>
-      {items.map(item => (
-        <label className="panel-block">
-            <input type="checkbox" />
-            {item.text}
+      <Input/>
+      {items.map((item,index) => (
+        <label key={index} className={item.done==true?('panel-block has-text-grey-light'):(' panel-block ')}>
+           <TodoItem item={item} handleChange={handleChange}/>
         </label>
       ))}
       <div className="panel-block">
