@@ -12,17 +12,19 @@ function Filter({items,setOption}  ) {
   }
   
   return (
-    <div className="panel-tabs">
+    <div className="panel-tabs my-1">
       
-        <button onClick={()=>handleClick(0)}>
+       <p className='buttons'>
+          <button onClick={()=>handleClick(0)} className='button'>
           全て
         </button>
-          <button  onClick={()=>handleClick(1)}>
+          <button  onClick={()=>handleClick(1)} className='button'>
           未完了
         </button>
-          <button onClick={()=>handleClick(2)}>
+          <button onClick={()=>handleClick(2)} className= 'button'>
           完了済み
         </button>
+       </p>
     
     </div>
   );

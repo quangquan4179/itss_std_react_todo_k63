@@ -19,8 +19,8 @@ import useStorage from '../hooks/storage';
 import {getKey} from "../lib/util";
 
 function Todo() {
-  const [items, putItems] = React.useState([...useStorage().[0]]);
   const [option,setOption] = useState(0)
+  const [items, putItems, clearItems] = useStorage()
 const handleChange=(key)=>{
   let cpState =[...items];
   for(let item of cpState){
@@ -28,7 +28,7 @@ const handleChange=(key)=>{
       item.done=!item.done
     }
   }
-  // useStorage().putItems(cpState)
+ 
   putItems(cpState)
   
 }
@@ -64,7 +64,12 @@ const handleChange=(key)=>{
         </label>
         ))))}
       <div className="panel-block">
-        {option===0?(items.length):(option==1?(items.filter((e)=>(e.done===false)).length):(items.filter((e)=>(e.done===true)).length))} items
+        {option===0?(items.length):(option===1?(items.filter((e)=>(e.done===false)).length):(items.filter((e)=>(e.done===true)).length))} items
+      </div>
+      <div >
+        <button onClick={clearItems} className='is-fullwidth button is-danger'>
+          全てのToDoを削除
+        </button>
       </div>
     </div>
   );
