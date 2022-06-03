@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 /* 
   【Todoのデータ構成】
@@ -19,13 +19,8 @@ import useStorage from '../hooks/storage';
 import {getKey} from "../lib/util";
 
 function Todo() {
-  const [items, putItems] = React.useState([
-      /* テストコード 開始 */
-    { key: getKey(), text: '日本語の宿題', done: false },
-    { key: getKey(), text: 'reactを勉強する', done: false },
-    { key: getKey(), text: '明日の準備をする', done: false },
-    /* テストコード 終了 */
-  ]);
+  const [items, putItems] = React.useState([...useStorage().[0]]);
+  const [option,setOption] = useState(0)
 const handleChange=(key)=>{
   let cpState =[...items];
   for(let item of cpState){
@@ -33,22 +28,43 @@ const handleChange=(key)=>{
       item.done=!item.done
     }
   }
+  // useStorage().putItems(cpState)
   putItems(cpState)
   
 }
+  console.log()
+  const handlePutItem=(newItem)=>{
+    let cpState =[...items];
+    cpState.push(newItem)
+    putItems(cpState)
+  }
   return (
     <div className="panel">
       <div className="panel-heading">
         ITSS ToDoアプリ
       </div>
-      <Input/>
-      {items.map((item,index) => (
-        <label key={index} className={item.done==true?('panel-block has-text-grey-light'):(' panel-block ')}>
-           <TodoItem item={item} handleChange={handleChange}/>
+      <Input handlePutItem={handlePutItem}/>
+      <Filter items={useStorage().items} setOption={setOption}/>
+      {option===0?(items.map((item,index) => (
+        <label key={index} className={item.done===true?('panel-block has-text-grey-light'):('panel-block ')}>
+           <TodoItem item={item} handleChange={handleChange} checked={item.done===true}/>
         </label>
-      ))}
+      ))):(option===1?(
+      
+        items.filter((e)=>(e.done===false)).map((item,index)=>(
+           <label key={index} className={item.done===true?('panel-block has-text-grey-light'):('panel-block ')}>
+           <TodoItem item={item} handleChange={handleChange} checked={item.done===true} />
+        </label>
+        ))
+        
+      
+      ):(items.filter((e)=>(e.done===true)).map((item,index)=>(
+           <label key={index} className={item.done===true?('panel-block has-text-grey-light'):('panel-block ')}>
+           <TodoItem item={item} handleChange={handleChange} checked={item.done===true}/>
+        </label>
+        ))))}
       <div className="panel-block">
-        {items.length} items
+        {option===0?(items.length):(option==1?(items.filter((e)=>(e.done===false)).length):(items.filter((e)=>(e.done===true)).length))} items
       </div>
     </div>
   );

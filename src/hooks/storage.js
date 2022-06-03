@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-
+import {getKey} from "../lib/util";
 /* 
   【Storageフック】
 　・TodoをlocalStorageを使って保存する
@@ -12,7 +12,13 @@ import { useState, useEffect } from 'react';
 const STORAGE_KEY = 'itss-todo';
 
 function useStorage() {
-  const [items, setItems] = useState([]);
+  const [items, setItems] = useState([
+      /* テストコード 開始 */
+    { key: getKey(), text: '日本語の宿題', done: false },
+    { key: getKey(), text: 'reactを勉強する', done: false },
+    { key: getKey(), text: '明日の準備をする', done: false },
+    /* テストコード 終了 */
+  ]);
 　
 　/* 副作用を使う */
   useEffect(() => {
@@ -20,11 +26,11 @@ function useStorage() {
   }, []);
 
   const putItems = items => {
-    
+    setItems(items)
   };
 
   const clearItems = () => {
-    
+    setItems([])
   };
 
   return [items, putItems, clearItems];

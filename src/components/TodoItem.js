@@ -6,11 +6,11 @@ import React from 'react'
 　・チェックボックスにチェックが入っているか管理する
 　・チェックボックスにチェックが入っているかアイテムをグレーアウトする
 */
-function TodoItem({item,handleChange}  ) {
+function TodoItem({item,handleChange,checked}  ) {
   // console.log(item)
   return (
-    <label className={item.done==true?('panel-block has-text-grey-light'):(' panel-block ')}>
-       <input type="checkbox" onClick={()=>handleChange(item.key)}/>
+    <label className={item.done===true?('panel-block has-text-grey-light'):(' panel-block ')}>
+       <input type="checkbox" onClick={()=>handleChange(item.key)}  checked={checked}/>
             {item.text}
     </label>
   );
